@@ -20,6 +20,8 @@ import { Link } from './link';
 import { SpanKind } from './span_kind';
 import { Span } from './span';
 import { SpanContext } from './span_context';
+import { TraceFlags } from './trace_flags';
+import { TraceState } from './trace_state';
 
 /**
  * Options needed for span creation
@@ -53,4 +55,14 @@ export interface SpanOptions {
 
   /** A manually specified start time for the created `Span` object. */
   startTime?: TimeInput;
+
+  // Really never use this ... unless you know why you should be ignoring this comment :)
+  spanId?: string;
+  
+  traceReservation?: {
+    traceId: string;
+    traceFlags: TraceFlags;
+    traceState?: TraceState;
+    isRemote?: boolean;
+  };
 }

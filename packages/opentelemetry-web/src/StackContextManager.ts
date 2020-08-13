@@ -22,6 +22,18 @@ import { ContextManager } from '@opentelemetry/context-base';
  * it doesn't fully support the async calls though
  */
 export class StackContextManager implements ContextManager {
+  public rootContext: Context = Context.ROOT_CONTEXT;
+
+  setRootContext(c: Context) {
+    if (!c) {
+      c = Context.ROOT_CONTEXT
+    }
+    if (this._currentContext === this.rootContext) {
+      this._currentContext = c
+    }
+    this.rootContext = c
+  }
+
   /**
    * whether the context manager is enabled or not
    */
@@ -30,7 +42,7 @@ export class StackContextManager implements ContextManager {
   /**
    * Keeps the reference to current context
    */
-  public _currentContext = Context.ROOT_CONTEXT;
+  public _currentContext = this.rootContext;
 
   /**
    *
@@ -39,7 +51,7 @@ export class StackContextManager implements ContextManager {
    */
   private _bindFunction<T extends Function>(
     target: T,
-    context = Context.ROOT_CONTEXT
+    context = this.rootContext
   ): T {
     const manager = this;
     const contextWrapper = function (this: unknown, ...args: unknown[]) {
@@ -66,7 +78,7 @@ export class StackContextManager implements ContextManager {
    * @param target
    * @param context
    */
-  bind<T>(target: T, context = Context.ROOT_CONTEXT): T {
+  bind<T>(target: T, context = this.rootContext): T {
     // if no specific context to propagate is given, we use the current one
     if (context === undefined) {
       context = this.active();
@@ -81,7 +93,7 @@ export class StackContextManager implements ContextManager {
    * Disable the context manager (clears the current context)
    */
   disable(): this {
-    this._currentContext = Context.ROOT_CONTEXT;
+    this._currentContext = this.rootContext;
     this._enabled = false;
     return this;
   }
@@ -94,7 +106,7 @@ export class StackContextManager implements ContextManager {
       return this;
     }
     this._enabled = true;
-    this._currentContext = Context.ROOT_CONTEXT;
+    this._currentContext = this.rootContext;
     return this;
   }
 
@@ -109,7 +121,7 @@ export class StackContextManager implements ContextManager {
     fn: () => ReturnType<T>
   ): ReturnType<T> {
     const previousContext = this._currentContext;
-    this._currentContext = context || Context.ROOT_CONTEXT;
+    this._currentContext = context || this.rootContext;
 
     try {
       return fn();

@@ -19,6 +19,12 @@ import * as asyncHooks from 'async_hooks';
 import { AbstractAsyncHooksContextManager } from './AbstractAsyncHooksContextManager';
 
 export class AsyncHooksContextManager extends AbstractAsyncHooksContextManager {
+  public rootContext: () => Context = () => Context.ROOT_CONTEXT
+
+  setRootContextGetter(c: () => Context) {
+    this.rootContext = c
+  }
+
   private _asyncHook: asyncHooks.AsyncHook;
   private _contexts: Map<number, Context | undefined> = new Map();
   private _stack: Array<Context | undefined> = [];
@@ -35,7 +41,7 @@ export class AsyncHooksContextManager extends AbstractAsyncHooksContextManager {
   }
 
   active(): Context {
-    return this._stack[this._stack.length - 1] ?? Context.ROOT_CONTEXT;
+    return this._stack[this._stack.length - 1] ?? this.rootContext();
   }
 
   with<T extends (...args: unknown[]) => ReturnType<T>>(

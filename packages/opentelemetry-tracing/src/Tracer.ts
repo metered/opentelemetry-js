@@ -22,6 +22,7 @@ import {
   getParentSpanContext,
   InstrumentationLibrary,
   isValid,
+  INVALID_TRACEID,
   NoRecordingSpan,
   randomSpanId,
   randomTraceId,
@@ -32,6 +33,7 @@ import { BasicTracerProvider } from './BasicTracerProvider';
 import { Span } from './Span';
 import { TraceParams, TracerConfig } from './types';
 import { mergeConfig } from './utility';
+
 
 /**
  * This class represents a basic tracer.
@@ -69,16 +71,22 @@ export class Tracer implements api.Tracer {
     context = apiGlobal.context.active()
   ): api.Span {
     const parentContext = getParent(options, context);
-    const spanId = randomSpanId();
+    const reservation = options.traceReservation && options.traceReservation.traceId !== INVALID_TRACEID && options.traceReservation
+    const spanId = options.spanId || randomSpanId();
     let traceId;
     let traceState;
-    if (!parentContext || !isValid(parentContext)) {
-      // New root span.
-      traceId = randomTraceId();
+    if (reservation) {
+      traceId = reservation.traceId;
+      traceState = reservation.traceState;
     } else {
-      // New child span.
-      traceId = parentContext.traceId;
-      traceState = parentContext.traceState;
+      if (!parentContext || !isValid(parentContext)) {
+        // New root span.
+        traceId = randomTraceId();
+      } else {
+        // New child span.
+        traceId = parentContext.traceId;
+        traceState = parentContext.traceState;
+      }
     }
     const spanKind = options.kind ?? api.SpanKind.INTERNAL;
     const links = options.links ?? [];

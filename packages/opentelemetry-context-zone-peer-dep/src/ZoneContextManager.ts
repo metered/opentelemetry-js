@@ -21,6 +21,7 @@ import { isListenerObject } from './util';
 /* Key name to be used to save a context reference in Zone */
 const ZONE_CONTEXT_KEY = 'OT_ZONE_CONTEXT';
 
+const defaultRootContext = () => Context.ROOT_CONTEXT
 /**
  * ZoneContextManager
  * This module provides an easy functionality for tracing action between asynchronous operations in web.
@@ -31,6 +32,12 @@ const ZONE_CONTEXT_KEY = 'OT_ZONE_CONTEXT';
  * When this happens a new zone is being created and the provided Span is being assigned to this zone.
  */
 export class ZoneContextManager implements ContextManager {
+  private _rootContext = defaultRootContext
+
+  setRootContextGetter(c?: () => Context) {
+    this._rootContext = c ?? defaultRootContext
+  }
+
   /**
    * whether the context manager is enabled or not
    */
@@ -47,7 +54,7 @@ export class ZoneContextManager implements ContextManager {
    */
   private _activeContextFromZone(activeZone: Zone | undefined): Context {
     return (
-      (activeZone && activeZone.get(ZONE_CONTEXT_KEY)) || Context.ROOT_CONTEXT
+      (activeZone && activeZone.get(ZONE_CONTEXT_KEY)) || this._rootContext()
     );
   }
 
@@ -190,7 +197,7 @@ export class ZoneContextManager implements ContextManager {
    */
   active(): Context {
     if (!this._enabled) {
-      return Context.ROOT_CONTEXT;
+      return this._rootContext();
     }
     const activeZone = this._getActiveZone();
 
@@ -199,7 +206,7 @@ export class ZoneContextManager implements ContextManager {
       return active;
     }
 
-    return Context.ROOT_CONTEXT;
+    return this._rootContext();
   }
 
   /**

@@ -56,7 +56,7 @@ export class Span implements api.Span, ReadableSpan {
 
   /** Constructs a new Span instance. */
   constructor(
-    parentTracer: Tracer,
+    parentTracer: Pick<Tracer, 'resource' | 'instrumentationLibrary' | 'getActiveSpanProcessor' | 'getActiveTraceParams' | 'logger'>,
     spanName: string,
     spanContext: api.SpanContext,
     kind: api.SpanKind,

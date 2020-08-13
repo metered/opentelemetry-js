@@ -57,6 +57,12 @@ export function parseTraceParent(traceParent: string): SpanContext | null {
   };
 }
 
+export function asTraceParent(spanContext: SpanContext): string {
+  return `${VERSION}-${spanContext.traceId}-${
+    spanContext.spanId
+    }-0${Number(spanContext.traceFlags || TraceFlags.NONE).toString(16)}`;
+}
+
 /**
  * Propagates {@link SpanContext} through Trace Context format propagation.
  *
@@ -68,9 +74,7 @@ export class HttpTraceContext implements HttpTextPropagator {
     const spanContext = getParentSpanContext(context);
     if (!spanContext) return;
 
-    const traceParent = `${VERSION}-${spanContext.traceId}-${
-      spanContext.spanId
-    }-0${Number(spanContext.traceFlags || TraceFlags.NONE).toString(16)}`;
+    const traceParent = asTraceParent(spanContext)
 
     setter(carrier, TRACE_PARENT_HEADER, traceParent);
     if (spanContext.traceState) {

@@ -30,6 +30,7 @@ import {
   BasePlugin,
   NoRecordingSpan,
   getExtractedSpanContext,
+  setExtractedSpanContext,
 } from '@opentelemetry/core';
 import {
   ClientRequest,
@@ -312,7 +313,17 @@ export class HttpPlugin extends BasePlugin<Http> {
         }),
       };
 
-      return context.with(propagation.extract(headers), () => {
+      const activeContext = context.active()
+
+      const extractedContext = propagation.extract(headers)
+      let requestContext = extractedContext
+      if (extractedContext === activeContext && plugin._config.newIncomingParentSpanContext) {
+        // nothing to extract!
+        const spanContext = plugin._config.newIncomingParentSpanContext(request, response)
+        requestContext = setExtractedSpanContext(activeContext, spanContext)
+      }
+      
+      return context.with(requestContext, () => {
         const span = plugin._startHttpSpan(
           `${method} ${pathname}`,
           spanOptions
@@ -456,10 +467,9 @@ export class HttpPlugin extends BasePlugin<Http> {
         : this._config.requireParentforIncomingSpans;
     let span: Span;
     if (requireParent === true && this._tracer.getCurrentSpan() === undefined) {
-      const spanContext =
-        getExtractedSpanContext(context.active()) ?? plugin._emptySpanContext;
       // TODO: Refactor this when a solution is found in
       // https://github.com/open-telemetry/opentelemetry-specification/issues/530
+      const spanContext = getExtractedSpanContext(context.active()) ?? plugin._emptySpanContext
       span = new NoRecordingSpan(spanContext);
     } else {
       span = this._tracer.startSpan(name, options);

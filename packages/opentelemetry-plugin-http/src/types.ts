@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { PluginConfig, Span } from '@opentelemetry/api';
+import { PluginConfig, Span, SpanContext } from '@opentelemetry/api';
 import * as http from 'http';
 import {
   ClientRequest,
@@ -84,6 +84,8 @@ export interface HttpPluginConfig extends PluginConfig {
   requireParentforOutgoingSpans?: boolean;
   /** Require parent to create span for incoming requests */
   requireParentforIncomingSpans?: boolean;
+  /** Allowed */
+  newIncomingParentSpanContext?: (req: IncomingMessage, res: ServerResponse) => SpanContext;
 }
 
 export interface Err extends Error {
