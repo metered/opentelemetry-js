@@ -16,6 +16,7 @@
 
 import * as shimmer from 'shimmer';
 import * as api from '@opentelemetry/api';
+import * as apiGlobal from '@opentelemetry/api-global';
 import * as core from '@opentelemetry/core';
 import * as web from '@opentelemetry/web';
 import { AttributeNames } from './enums/AttributeNames';
@@ -109,12 +110,12 @@ export class FetchPlugin extends core.BasePlugin<Promise<Response>> {
     }
 
     if (options instanceof Request) {
-      api.propagation.inject(options.headers, (h, k, v) =>
+      apiGlobal.propagation.inject(options.headers, (h, k, v) =>
         h.set(k, typeof v === 'string' ? v : String(v))
       );
     } else {
       const headers: Partial<Record<string, unknown>> = {};
-      api.propagation.inject(headers);
+      apiGlobal.propagation.inject(headers);
       options.headers = Object.assign({}, headers, options.headers || {});
     }
   }

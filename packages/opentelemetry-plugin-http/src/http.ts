@@ -15,8 +15,6 @@
  */
 import {
   CanonicalCode,
-  context,
-  propagation,
   Span,
   SpanKind,
   SpanOptions,
@@ -24,6 +22,10 @@ import {
   SpanContext,
   TraceFlags,
 } from '@opentelemetry/api';
+import {
+  context,
+  propagation,
+} from '@opentelemetry/api-global';
 import {
   BasePlugin,
   NoRecordingSpan,

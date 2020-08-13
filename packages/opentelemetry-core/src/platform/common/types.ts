@@ -13,7 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+export enum LogLevel {
+  ERROR,
+  WARN,
+  INFO,
+  DEBUG,
+}
 
-/** only globals that common to node and browsers are allowed */
-// eslint-disable-next-line node/no-unsupported-features/es-builtins, no-undef
-export const _globalThis = typeof globalThis === 'object' ? globalThis : window;
+/**
+ * This is equivalent to:
+ * type LogLevelString = 'ERROR' | 'WARN' | 'INFO' | 'DEBUG';
+ */
+export type LogLevelString = keyof typeof LogLevel;

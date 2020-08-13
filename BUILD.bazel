@@ -1,0 +1,171 @@
+package(default_visibility = ["//visibility:public"])
+
+load(":index.bzl", "iso_library", "library")
+
+library(
+  name = "context-base",
+)
+
+library(
+  name = "context-zone-peer-dep",
+  deps = [
+    "@npm//zone.js",
+    ":context-base",
+  ]
+)
+
+library(
+  name = "semantic-conventions",
+)
+
+library(
+  name = "context-zone",
+  deps = [
+    "@npm//zone.js",
+    ":context-zone-peer-dep",
+  ]
+)
+
+library(
+  name = "api",
+  deps = [
+    ":context-base",
+  ],
+)
+
+library(
+  name = "plugin-xml-http-request",
+  deps = [
+    "@npm//shimmer",
+    "@npm//@types/shimmer",
+    ":api",
+    ":api-global-shared",
+    ":api-global-platform-browser",
+    ":core-shared",
+    ":core-platform-browser",
+    ":web",
+    ":semantic-conventions",
+  ]
+)
+
+iso_library(
+  name = "api-global",
+  deps = [
+    ":api",
+    ":context-base",
+  ]
+)
+
+iso_library(
+  name = "resources",
+  # exclude = [
+  #   "packages/opentelemetry-resources/src/platform/**/*.ts",
+  # ],
+  deps = [
+    ":api",
+  ],
+  iso_deps = [
+    ":core",
+  ],
+  node_deps = [
+    "@npm//gcp-metadata",
+  ],
+)
+
+library(
+  name = "context-async-hooks",
+  deps = [
+    ":context-base",
+    "@npm//@types/node",
+  ]
+)
+
+library(
+  name = "web",
+  deps = [
+    ":api",
+    ":context-base",
+    ":core-platform-browser",
+    ":core-shared",
+    ":tracing",
+    ":semantic-conventions",
+  ]
+)
+
+library(
+  name = "node",
+  deps = [
+    "@npm//@types/node",
+    "@npm//require-in-the-middle",
+    "@npm//semver",
+    "@npm//@types/semver",
+    ":api",
+    ":core-shared",
+    ":core-platform-node",
+    ":tracing",
+    ":context-async-hooks",
+  ]
+)
+
+library(
+  name = "plugin-http",
+  deps = [
+    "@npm//@types/node",
+    "@npm//@types/shimmer",
+    "@npm//semver",
+    "@npm//@types/semver",
+    ":api-global-shared",
+    ":api-global-platform-node",
+    ":api",
+    ":core-shared",
+    ":core-platform-node",
+    ":semantic-conventions",
+  ],
+)
+
+library(
+  name = "plugin-https",
+  deps = [
+    "@npm//@types/node",
+    "@npm//@types/shimmer",
+    "@npm//semver",
+    "@npm//@types/semver",
+    ":plugin-http",
+  ],
+)
+
+library(
+  name = "plugin-fetch",
+  deps = [
+    "@npm//shimmer",
+    "@npm//@types/shimmer",
+    ":api",
+    ":api-global-shared",
+    ":api-global-platform-browser",
+    ":core-platform-browser",
+    ":core-shared",
+    ":web",
+  ]
+)
+
+iso_library(
+  name = "core",
+  deps = [
+    ":context-base",
+    "@npm//semver",
+    "@npm//@types/semver",
+    ":api",
+  ],
+)
+
+library(
+  name = "tracing",
+  deps = [
+    ":context-base",
+    ":api",
+
+    ":core-shared",
+    ":resources-shared",
+    ":api-global-shared",
+  ]
+)

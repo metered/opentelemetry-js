@@ -14,7 +14,8 @@
  * limitations under the License.
  */
 
-export * from './Resource';
-export * from './platform';
-export * from './constants';
-export * from './types';
+export * from '@opentelemetry/resources/platform/common';
+// Disable this logic
+// export * from '@opentelemetry/resources/platform';
+export * from '@opentelemetry/resources/platform/common';
+export * from '@opentelemetry/resources/platform/common';

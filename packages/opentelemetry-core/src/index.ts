@@ -19,7 +19,7 @@ export * from './common/NoopLogger';
 export * from './common/time';
 export * from './common/types';
 export * from './ExportResult';
-export * from './version';
+export { VERSION } from '@opentelemetry/core/platform/common';
 export * from './context/context';
 export * from './context/propagation/B3Propagator';
 export * from './context/propagation/composite';
@@ -27,7 +27,15 @@ export * from './context/propagation/HttpTraceContext';
 export * from './context/propagation/types';
 export * from './correlation-context/correlation-context';
 export * from './correlation-context/propagation/HttpCorrelationContext';
-export * from './platform';
+export {
+  getEnv,
+  randomSpanId,
+  randomTraceId,
+  unrefTimer,
+  SDK_INFO,
+  BasePlugin,
+  otperformance,
+} from '@opentelemetry/core/platform';
 export * from './trace/NoRecordingSpan';
 export * from './trace/sampler/AlwaysOffSampler';
 export * from './trace/sampler/AlwaysOnSampler';

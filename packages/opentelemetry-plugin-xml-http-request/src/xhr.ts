@@ -15,6 +15,7 @@
  */
 
 import * as api from '@opentelemetry/api';
+import * as apiGlobal from '@opentelemetry/api-global';
 import {
   BasePlugin,
   hrTime,
@@ -92,7 +93,7 @@ export class XMLHttpRequestPlugin extends BasePlugin<XMLHttpRequest> {
       return;
     }
     const headers: { [key: string]: unknown } = {};
-    api.propagation.inject(headers);
+    apiGlobal.propagation.inject(headers);
     Object.keys(headers).forEach(key => {
       xhr.setRequestHeader(key, String(headers[key]));
     });

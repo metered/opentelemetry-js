@@ -13,4 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export * from './node';
+
+declare module '@opentelemetry/resources/platform' {
+  import { Resource } from '@opentelemetry/resources/platform/common';
+  import {
+    ResourceDetectionConfig,
+  } from '@opentelemetry/resources/platform/common';
+
+  export const detectResources: (
+    config: ResourceDetectionConfig
+  ) => Promise<Resource>;
+}

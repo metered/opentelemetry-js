@@ -20,7 +20,7 @@ import {
   PluginConfig,
   TracerProvider,
 } from '@opentelemetry/api';
-import * as hook from 'require-in-the-middle';
+import hook from 'require-in-the-middle';
 import * as utils from './utils';
 
 // States for the Plugin Loader

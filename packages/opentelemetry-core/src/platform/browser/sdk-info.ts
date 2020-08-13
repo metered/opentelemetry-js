@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { VERSION } from '../../version';
+import { VERSION } from '@opentelemetry/core/platform/common';
 
 /** Constants describing the SDK in use */
 export const SDK_INFO = {

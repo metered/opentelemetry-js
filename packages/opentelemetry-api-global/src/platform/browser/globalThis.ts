@@ -1,3 +1,4 @@
+/// <reference lib="dom" />
 /*
  * Copyright The OpenTelemetry Authors
  *
@@ -14,4 +15,6 @@
  * limitations under the License.
  */
 
-export * from './node';
+/** only globals that common to node and browsers are allowed */
+// eslint-disable-next-line node/no-unsupported-features/es-builtins, no-undef
+export const _globalThis = typeof globalThis === 'object' ? globalThis : window;

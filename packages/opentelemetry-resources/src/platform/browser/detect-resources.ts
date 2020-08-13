@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { Resource } from '../../Resource';
+import { Resource } from '@opentelemetry/resources/platform/common/Resource';
 
 /**
  * Detects resources for the browser platform, which is currently only the

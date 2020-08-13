@@ -32,7 +32,7 @@ export class BatchSpanProcessor implements SpanProcessor {
   private readonly _bufferTimeout: number;
 
   private _finishedSpans: ReadableSpan[] = [];
-  private _timer: NodeJS.Timeout | undefined;
+  private _timer: ReturnType<typeof setTimeout> | undefined;
   private _isShutdown = false;
 
   constructor(private readonly _exporter: SpanExporter, config?: BufferConfig) {
@@ -98,7 +98,7 @@ export class BatchSpanProcessor implements SpanProcessor {
     this._timer = setTimeout(() => {
       this._flush();
     }, this._bufferTimeout);
-    unrefTimer(this._timer);
+    unrefTimer(this._timer!);
   }
 
   private _clearTimer() {

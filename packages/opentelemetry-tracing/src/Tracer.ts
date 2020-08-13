@@ -15,6 +15,7 @@
  */
 
 import * as api from '@opentelemetry/api';
+import * as apiGlobal from '@opentelemetry/api-global';
 import {
   ConsoleLogger,
   getActiveSpan,
@@ -65,7 +66,7 @@ export class Tracer implements api.Tracer {
   startSpan(
     name: string,
     options: api.SpanOptions = {},
-    context = api.context.active()
+    context = apiGlobal.context.active()
   ): api.Span {
     const parentContext = getParent(options, context);
     const spanId = randomSpanId();
@@ -122,7 +123,7 @@ export class Tracer implements api.Tracer {
    * If there is no Span associated with the current context, undefined is returned.
    */
   getCurrentSpan(): api.Span | undefined {
-    const ctx = api.context.active();
+    const ctx = apiGlobal.context.active();
     // Get the current Span from the context or null if none found.
     return getActiveSpan(ctx);
   }
@@ -135,16 +136,16 @@ export class Tracer implements api.Tracer {
     fn: T
   ): ReturnType<T> {
     // Set given span to context.
-    return api.context.with(setActiveSpan(api.context.active(), span), fn);
+    return apiGlobal.context.with(setActiveSpan(apiGlobal.context.active(), span), fn);
   }
 
   /**
    * Bind a span (or the current one) to the target's context
    */
   bind<T>(target: T, span?: api.Span): T {
-    return api.context.bind(
+    return apiGlobal.context.bind(
       target,
-      span ? setActiveSpan(api.context.active(), span) : api.context.active()
+      span ? setActiveSpan(apiGlobal.context.active(), span) : apiGlobal.context.active()
     );
   }
 

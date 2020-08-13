@@ -1,3 +1,4 @@
+/// <reference lib="dom" />
 /*
  * Copyright The OpenTelemetry Authors
  *
@@ -16,7 +17,7 @@
 
 import { Logger } from '@opentelemetry/api';
 import { LogLevel } from './types';
-import { getEnv } from '../platform';
+import { getEnv } from '@opentelemetry/core/platform';
 
 export class ConsoleLogger implements Logger {
   constructor(level: LogLevel = getEnv().OTEL_LOG_LEVEL) {

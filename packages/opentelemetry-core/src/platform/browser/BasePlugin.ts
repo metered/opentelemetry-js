@@ -20,7 +20,7 @@ import {
   PluginConfig,
   TracerProvider,
 } from '@opentelemetry/api';
-import { BaseAbstractPlugin } from '../BaseAbstractPlugin';
+import { BaseAbstractPlugin } from '@opentelemetry/core/platform/common';
 
 /** This class represent the base to patch plugin. */
 export abstract class BasePlugin<T> extends BaseAbstractPlugin<T>

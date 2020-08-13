@@ -13,18 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export enum LogLevel {
-  ERROR,
-  WARN,
-  INFO,
-  DEBUG,
-}
-
-/**
- * This is equivalent to:
- * type LogLevelString = 'ERROR' | 'WARN' | 'INFO' | 'DEBUG';
- */
-export type LogLevelString = keyof typeof LogLevel;
+export { LogLevel, LogLevelString } from '@opentelemetry/core/platform/common'
 
 /**
  * This interface defines a fallback to read a timeOrigin when it is not available on performance.timeOrigin,

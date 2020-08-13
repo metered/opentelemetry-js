@@ -1,3 +1,4 @@
+/// <reference lib="dom" />
 /*
  * Copyright The OpenTelemetry Authors
  *
@@ -19,7 +20,7 @@ import {
   ENVIRONMENT,
   ENVIRONMENT_MAP,
   parseEnvironment,
-} from '../../utils/environment';
+} from '@opentelemetry/core/platform/common';
 
 /**
  * Gets the environment variables

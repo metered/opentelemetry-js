@@ -15,6 +15,7 @@
  */
 
 import * as api from '@opentelemetry/api';
+import * as apiGlobal from '@opentelemetry/api-global';
 import {
   ConsoleLogger,
   HttpTraceContext,
@@ -84,7 +85,7 @@ export class BasicTracerProvider implements api.TracerProvider {
    * @param config Configuration object for SDK registration
    */
   register(config: SDKRegistrationConfig = {}) {
-    api.trace.setGlobalTracerProvider(this);
+    apiGlobal.trace.setGlobalTracerProvider(this);
     if (config.propagator === undefined) {
       config.propagator = new CompositePropagator({
         propagators: [new HttpCorrelationContext(), new HttpTraceContext()],
@@ -92,11 +93,11 @@ export class BasicTracerProvider implements api.TracerProvider {
     }
 
     if (config.contextManager) {
-      api.context.setGlobalContextManager(config.contextManager);
+      apiGlobal.context.setGlobalContextManager(config.contextManager);
     }
 
     if (config.propagator) {
-      api.propagation.setGlobalPropagator(config.propagator);
+      apiGlobal.propagation.setGlobalPropagator(config.propagator);
     }
   }
 }

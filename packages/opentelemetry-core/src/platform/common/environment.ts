@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { LogLevel } from '../common/types';
+import { LogLevel } from './types';
 
 export type ENVIRONMENT_MAP = { [key: string]: string | number };
 

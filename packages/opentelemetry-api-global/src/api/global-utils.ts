@@ -15,10 +15,10 @@
  */
 
 import { ContextManager } from '@opentelemetry/context-base';
-import { HttpTextPropagator } from '../context/propagation/HttpTextPropagator';
-import { MeterProvider } from '../metrics/MeterProvider';
-import { TracerProvider } from '../trace/tracer_provider';
-import { _globalThis } from '../platform';
+import { HttpTextPropagator } from '@opentelemetry/api';
+import { MeterProvider } from '@opentelemetry/api';
+import { TracerProvider } from '@opentelemetry/api';
+import { _globalThis } from '@opentelemetry/api-global/platform';
 
 export const GLOBAL_CONTEXT_MANAGER_API_KEY = Symbol.for(
   'io.opentelemetry.js.api.context'

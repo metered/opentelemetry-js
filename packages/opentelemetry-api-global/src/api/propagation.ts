@@ -15,10 +15,10 @@
  */
 
 import { Context } from '@opentelemetry/context-base';
-import { defaultGetter, GetterFunction } from '../context/propagation/getter';
-import { HttpTextPropagator } from '../context/propagation/HttpTextPropagator';
-import { NOOP_HTTP_TEXT_PROPAGATOR } from '../context/propagation/NoopHttpTextPropagator';
-import { defaultSetter, SetterFunction } from '../context/propagation/setter';
+import { defaultGetter, GetterFunction } from '@opentelemetry/api';
+import { HttpTextPropagator } from '@opentelemetry/api';
+import { NOOP_HTTP_TEXT_PROPAGATOR } from '@opentelemetry/api';
+import { defaultSetter, SetterFunction } from '@opentelemetry/api';
 import { ContextAPI } from './context';
 import {
   API_BACKWARDS_COMPATIBILITY_VERSION,

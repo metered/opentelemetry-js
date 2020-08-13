@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-import { Resource } from '../../Resource';
+import { Resource } from '@openetelemetry/resources/platform/common/Resource';
 import { envDetector, awsEc2Detector, gcpDetector } from './detectors';
-import { Detector } from '../../types';
+import { Detector } from '@openetelemetry/resources/platform/common/types';
 import {
   ResourceDetectionConfig,
   ResourceDetectionConfigWithLogger,
-} from '../../config';
+} from '@openetelemetry/resources/platform/common/config';
 import { Logger } from '@opentelemetry/api';
 import * as util from 'util';
 import { NoopLogger } from '@opentelemetry/core';

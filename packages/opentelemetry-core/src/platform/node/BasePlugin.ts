@@ -24,7 +24,7 @@ import {
 } from '@opentelemetry/api';
 import * as semver from 'semver';
 import * as path from 'path';
-import { BaseAbstractPlugin } from '../BaseAbstractPlugin';
+import { BaseAbstractPlugin } from '@opentelemetry/core/platform/common';
 
 /** This class represent the base to patch plugin. */
 export abstract class BasePlugin<T> extends BaseAbstractPlugin<T>

@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-import { NOOP_TRACER_PROVIDER } from '../trace/NoopTracerProvider';
-import { Tracer } from '../trace/tracer';
-import { TracerProvider } from '../trace/tracer_provider';
+import { NOOP_TRACER_PROVIDER } from '@opentelemetry/api';
+import { Tracer } from '@opentelemetry/api';
+import { TracerProvider } from '@opentelemetry/api';
 import {
   API_BACKWARDS_COMPATIBILITY_VERSION,
   GLOBAL_TRACE_API_KEY,

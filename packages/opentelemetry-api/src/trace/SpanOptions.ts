@@ -15,6 +15,7 @@
  */
 
 import { Attributes } from './attributes';
+import { TimeInput } from '../common/Time';
 import { Link } from './link';
 import { SpanKind } from './span_kind';
 import { Span } from './span';
@@ -51,5 +52,5 @@ export interface SpanOptions {
   parent?: Span | SpanContext | null;
 
   /** A manually specified start time for the created `Span` object. */
-  startTime?: number;
+  startTime?: TimeInput;
 }
