@@ -27,15 +27,15 @@ export interface NodeTracerConfig extends TracerConfig {
 
 /** List of all default supported plugins */
 export const DEFAULT_INSTRUMENTATION_PLUGINS: Plugins = {
-  mongodb: { enabled: true, path: '@opentelemetry/plugin-mongodb' },
-  grpc: { enabled: true, path: '@opentelemetry/plugin-grpc' },
-  '@grpc/grpc-js': { enabled: true, path: '@opentelemetry/plugin-grpc-js' },
-  http: { enabled: true, path: '@opentelemetry/plugin-http' },
-  https: { enabled: true, path: '@opentelemetry/plugin-https' },
-  mysql: { enabled: true, path: '@opentelemetry/plugin-mysql' },
-  pg: { enabled: true, path: '@opentelemetry/plugin-pg' },
-  redis: { enabled: true, path: '@opentelemetry/plugin-redis' },
-  ioredis: { enabled: true, path: '@opentelemetry/plugin-ioredis' },
-  'pg-pool': { enabled: true, path: '@opentelemetry/plugin-pg-pool' },
-  express: { enabled: true, path: '@opentelemetry/plugin-express' },
+  mongodb: { enabled: false, path: '@opentelemetry/plugin-mongodb' },
+  grpc: { enabled: false, path: '@opentelemetry/plugin-grpc' },
+  '@grpc/grpc-js': { enabled: false, path: '@opentelemetry/plugin-grpc-js' },
+  http: { enabled: false, path: '@opentelemetry/plugin-http' },
+  https: { enabled: false, path: '@opentelemetry/plugin-https' },
+  mysql: { enabled: false, path: '@opentelemetry/plugin-mysql' },
+  pg: { enabled: false, path: '@opentelemetry/plugin-pg' },
+  redis: { enabled: false, path: '@opentelemetry/plugin-redis' },
+  ioredis: { enabled: false, path: '@opentelemetry/plugin-ioredis' },
+  'pg-pool': { enabled: false, path: '@opentelemetry/plugin-pg-pool' },
+  express: { enabled: false, path: '@opentelemetry/plugin-express' },
 };
