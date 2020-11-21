@@ -64,9 +64,15 @@ export class FetchPlugin extends core.BasePlugin<Promise<Response>> {
     span: api.Span,
     corsPreFlightRequest: PerformanceResourceTiming
   ): void {
+    const url = corsPreFlightRequest.name;
+    const parsedUrl = web.parseUrl(url);
     const childSpan = this._tracer.startSpan('CORS Preflight', {
       parent: span,
       startTime: corsPreFlightRequest[web.PerformanceTimingNames.FETCH_START],
+      attributes: {
+        [AttributeNames.HTTP_URL]: url,
+        [AttributeNames.HTTP_HOST]: parsedUrl?.host,
+      },
     });
     web.addSpanNetworkEvents(childSpan, corsPreFlightRequest);
     childSpan.end(
@@ -147,7 +153,7 @@ export class FetchPlugin extends core.BasePlugin<Promise<Response>> {
       return;
     }
     const method = (options.method || 'GET').toUpperCase();
-    const spanName = `HTTP ${method}`;
+    const spanName = `http.request:${method}`;
     return this._tracer.startSpan(spanName, {
       kind: api.SpanKind.CLIENT,
       attributes: {

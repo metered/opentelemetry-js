@@ -325,7 +325,7 @@ export class HttpPlugin extends BasePlugin<Http> {
       
       return context.with(requestContext, () => {
         const span = plugin._startHttpSpan(
-          `${method} ${pathname}`,
+          `http.request:${method} ${pathname}`,
           spanOptions
         );
 
@@ -433,7 +433,7 @@ export class HttpPlugin extends BasePlugin<Http> {
         return original.apply(this, [optionsParsed, ...args]);
       }
 
-      const operationName = `${method} ${pathname}`;
+      const operationName = `http.request:${method} ${pathname}`;
       const spanOptions: SpanOptions = {
         kind: SpanKind.CLIENT,
       };

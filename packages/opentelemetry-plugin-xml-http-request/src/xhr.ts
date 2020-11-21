@@ -33,6 +33,7 @@ import {
 } from '@opentelemetry/web';
 import * as shimmer from 'shimmer';
 import { EventNames } from './enums/EventNames';
+import { AttributeNames } from './enums/AttributeNames';
 import {
   OpenFunction,
   PropagateTraceHeaderCorsUrls,
@@ -110,8 +111,14 @@ export class XMLHttpRequestPlugin extends BasePlugin<XMLHttpRequest> {
     corsPreFlightRequest: PerformanceResourceTiming
   ): void {
     this._tracer.withSpan(span, () => {
+      const url = corsPreFlightRequest.name;
+      const parsedUrl = parseUrl(url);
       const childSpan = this._tracer.startSpan('CORS Preflight', {
         startTime: corsPreFlightRequest[PTN.FETCH_START],
+        attributes: {
+          [AttributeNames.HTTP_URL]: url,
+          [AttributeNames.HTTP_HOST]: parsedUrl?.host,
+        },
       });
       addSpanNetworkEvents(childSpan, corsPreFlightRequest);
       childSpan.end(corsPreFlightRequest[PTN.RESPONSE_END]);
@@ -274,7 +281,7 @@ export class XMLHttpRequestPlugin extends BasePlugin<XMLHttpRequest> {
       return;
     }
 
-    const currentSpan = this._tracer.startSpan(url, {
+    const currentSpan = this._tracer.startSpan(`http.request:${method}`, {
       kind: api.SpanKind.CLIENT,
       attributes: {
         [HttpAttribute.HTTP_METHOD]: method,
